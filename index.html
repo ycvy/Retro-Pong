@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Retro Pong</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #1a1a1a, #2c2c2c);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: 'Press Start 2P', system-ui, -apple-system, sans-serif;
+        }
+
+        h1 {
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00;
+            margin-bottom: 30px;
+        }
+
+        .game-container {
+            position: relative;
+            padding: 20px;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+        }
+
+        canvas {
+            border: 3px solid #00ff00;
+            border-radius: 5px;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+            background: rgba(0, 0, 0, 0.9);
+        }
+
+        .controls {
+            color: #00ff00;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .score-board {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 100px;
+            color: #00ff00;
+            font-size: 24px;
+            text-shadow: 0 0 5px #00ff00;
+        }
+
+        @font-face {
+            font-family: 'Press Start 2P';
+            src: url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        }
+    </style>
+</head>
+<body>
+    <h1>RETRO PONG</h1>
+    <div class="game-container">
+        <div class="score-board">
+            <span id="leftScore">0</span>
+            <span id="rightScore">0</span>
+        </div>
+        <canvas id="pongCanvas" width="800" height="400"></canvas>
+    </div>
+    <div class="controls">
+        <p>Spieler 1: W/S | Spieler 2: ↑/↓</p>
+    </div>
+    <script src="pong.js"></script>
+</body>
+</html> 
