@@ -70,8 +70,113 @@ function movePaddles() {
     }
 }
 
-// Kollisionserkennung
+// Spielmodi-Konfigurationen
+const gameModes = {
+    classic: {
+        ballSpeed: 7,
+        paddleHeight: 100,
+        paddleSpeed: 8,
+        ballSize: 10,
+        backgroundColor: '#000000'
+    },
+    fast: {
+        ballSpeed: 12,
+        paddleHeight: 80,
+        paddleSpeed: 10,
+        ballSize: 8,
+        backgroundColor: '#001a00'
+    },
+    extreme: {
+        ballSpeed: 15,
+        paddleHeight: 60,
+        paddleSpeed: 12,
+        ballSize: 6,
+        backgroundColor: '#003300'
+    }
+};
+
+let currentMode = 'classic';
+let isGameRunning = false;
+
+// Spielinitialisierung
+function initGame(mode) {
+    currentMode = mode;
+    const config = gameModes[mode];
+
+    // Ball zurücksetzen
+    ball.x = canvas.width / 2;
+    ball.y = canvas.height / 2;
+    ball.speedX = config.ballSpeed * (Math.random() > 0.5 ? 1 : -1);
+    ball.speedY = config.ballSpeed * (Math.random() > 0.5 ? 1 : -1);
+    ball.radius = config.ballSize;
+
+    // Paddle-Einstellungen
+    leftPaddle.y = canvas.height / 2 - config.paddleHeight / 2;
+    rightPaddle.y = canvas.height / 2 - config.paddleHeight / 2;
+    leftPaddle.speed = config.paddleSpeed;
+    rightPaddle.speed = config.paddleSpeed;
+    paddleHeight = config.paddleHeight;
+
+    // Punktestand zurücksetzen
+    leftScore = 0;
+    rightScore = 0;
+}
+
+// Event Listener für Spielstart
+document.getElementById('startGame').addEventListener('click', () => {
+    const selectedMode = document.getElementById('gameMode').value;
+    initGame(selectedMode);
+    isGameRunning = true;
+    if (!gameLoopRunning) {
+        gameLoop();
+    }
+});
+
+// Modifizierte gameLoop
+let gameLoopRunning = false;
+
+function gameLoop() {
+    gameLoopRunning = true;
+
+    if (!isGameRunning) {
+        return;
+    }
+
+    // Canvas leeren mit Hintergrundfarbe des aktuellen Modus
+    ctx.fillStyle = gameModes[currentMode].backgroundColor;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Spiellogik
+    movePaddles();
+    
+    // Ballgeschwindigkeit aus aktuellem Modus verwenden
+    ball.x += ball.speedX;
+    ball.y += ball.speedY;
+    checkCollision();
+
+    // Zeichnen
+    drawBall();
+    drawPaddle(leftPaddle.x, leftPaddle.y);
+    drawPaddle(rightPaddle.x, rightPaddle.y);
+    drawScore();
+
+    // Modus-Anzeige
+    drawGameMode();
+
+    requestAnimationFrame(gameLoop);
+}
+
+// Funktion zum Anzeigen des aktuellen Spielmodus
+function drawGameMode() {
+    ctx.font = '16px "Press Start 2P"';
+    ctx.fillStyle = '#00ff00';
+    ctx.fillText(`Modus: ${currentMode.toUpperCase()}`, 10, 30);
+}
+
+// Modifizierte Kollisionserkennung für verschiedene Paddle-Größen
 function checkCollision() {
+    const currentPaddleHeight = gameModes[currentMode].paddleHeight;
+
     // Kollision mit oberem und unterem Rand
     if (ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
         ball.speedY = -ball.speedY;
@@ -87,8 +192,12 @@ function checkCollision() {
         if (ball.x + ball.radius > paddle.x && 
             ball.x - ball.radius < paddle.x + paddleWidth &&
             ball.y + ball.radius > paddle.y && 
-            ball.y - ball.radius < paddle.y + paddleHeight) {
+            ball.y - ball.radius < paddle.y + currentPaddleHeight) {
             ball.speedX = -ball.speedX;
+            
+            // Geschwindigkeit leicht erhöhen bei Paddle-Treffer
+            ball.speedX *= 1.05;
+            ball.speedY *= 1.05;
         }
     });
 
@@ -102,11 +211,13 @@ function checkCollision() {
     }
 }
 
-// Ball zurücksetzen
+// Modifizierte resetBall Funktion
 function resetBall() {
     ball.x = canvas.width / 2;
     ball.y = canvas.height / 2;
-    ball.speedX = -ball.speedX;
+    const config = gameModes[currentMode];
+    ball.speedX = config.ballSpeed * (Math.random() > 0.5 ? 1 : -1);
+    ball.speedY = config.ballSpeed * (Math.random() > 0.5 ? 1 : -1);
 }
 
 // Zeichenfunktionen
@@ -126,26 +237,6 @@ function drawPaddle(x, y) {
 function drawScore() {
     document.getElementById('leftScore').textContent = leftScore;
     document.getElementById('rightScore').textContent = rightScore;
-}
-
-// Hauptspielschleife
-function gameLoop() {
-    // Canvas leeren
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Spiellogik
-    movePaddles();
-    ball.x += ball.speedX;
-    ball.y += ball.speedY;
-    checkCollision();
-
-    // Zeichnen
-    drawBall();
-    drawPaddle(leftPaddle.x, leftPaddle.y);
-    drawPaddle(rightPaddle.x, rightPaddle.y);
-    drawScore();
-
-    requestAnimationFrame(gameLoop);
 }
 
 // Spiel starten

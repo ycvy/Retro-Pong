@@ -60,6 +60,38 @@
             font-family: 'Press Start 2P';
             src: url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
         }
+
+        .game-settings {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .mode-select {
+            background: #000;
+            color: #00ff00;
+            border: 2px solid #00ff00;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: 'Press Start 2P', sans-serif;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .start-button {
+            background: #000;
+            color: #00ff00;
+            border: 2px solid #00ff00;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-family: 'Press Start 2P', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .start-button:hover {
+            background: #00ff00;
+            color: #000;
+        }
     </style>
 </head>
 <body>
@@ -68,6 +100,14 @@
         <div class="score-board">
             <span id="leftScore">0</span>
             <span id="rightScore">0</span>
+        </div>
+        <div class="game-settings">
+            <select id="gameMode" class="mode-select">
+                <option value="classic">Klassisch</option>
+                <option value="fast">Schnell</option>
+                <option value="extreme">Extrem</option>
+            </select>
+            <button id="startGame" class="start-button">Spiel starten</button>
         </div>
         <canvas id="pongCanvas" width="800" height="400"></canvas>
     </div>
