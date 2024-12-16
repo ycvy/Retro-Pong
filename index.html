@@ -11,13 +11,14 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            font-family: 'Press Start 2P', system-ui, -apple-system, sans-serif;
+            font-family: 'Courier New', monospace;
         }
 
         h1 {
             color: #00ff00;
             text-shadow: 0 0 10px #00ff00;
             margin-bottom: 30px;
+            font-family: 'Courier New', monospace;
         }
 
         .game-container {
@@ -26,6 +27,7 @@
             border-radius: 10px;
             background: rgba(0, 0, 0, 0.8);
             box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+            margin-top: 40px;
         }
 
         canvas {
@@ -54,16 +56,14 @@
             color: #00ff00;
             font-size: 24px;
             text-shadow: 0 0 5px #00ff00;
-        }
-
-        @font-face {
-            font-family: 'Press Start 2P';
-            src: url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+            z-index: 0;
         }
 
         .game-settings {
-            margin-bottom: 20px;
+            margin-bottom: 60px;
             text-align: center;
+            position: relative;
+            z-index: 1;
         }
 
         .mode-select {
@@ -72,7 +72,7 @@
             border: 2px solid #00ff00;
             padding: 10px;
             border-radius: 5px;
-            font-family: 'Press Start 2P', sans-serif;
+            font-family: 'Courier New', monospace;
             margin-right: 10px;
             cursor: pointer;
         }
@@ -83,7 +83,7 @@
             border: 2px solid #00ff00;
             padding: 10px 20px;
             border-radius: 5px;
-            font-family: 'Press Start 2P', sans-serif;
+            font-family: 'Courier New', monospace;
             cursor: pointer;
             transition: all 0.3s;
         }
@@ -96,18 +96,18 @@
 </head>
 <body>
     <h1>RETRO PONG</h1>
+    <div class="game-settings">
+        <select id="gameMode" class="mode-select">
+            <option value="classic">Klassisch</option>
+            <option value="fast">Schnell</option>
+            <option value="extreme">Extrem</option>
+        </select>
+        <button id="startGame" class="start-button">Spiel starten</button>
+    </div>
     <div class="game-container">
         <div class="score-board">
             <span id="leftScore">0</span>
             <span id="rightScore">0</span>
-        </div>
-        <div class="game-settings">
-            <select id="gameMode" class="mode-select">
-                <option value="classic">Klassisch</option>
-                <option value="fast">Schnell</option>
-                <option value="extreme">Extrem</option>
-            </select>
-            <button id="startGame" class="start-button">Spiel starten</button>
         </div>
         <canvas id="pongCanvas" width="800" height="400"></canvas>
     </div>
