@@ -222,8 +222,14 @@ function initGame(mode) {
     rightScore = 0;
 }
 
+// Globale Variable für den Animation Frame
+let animationFrameId = null;
+
 function gameLoop() {
     if (!isGameRunning) {
+        // Wenn das Spiel nicht läuft, Animation Frame abbrechen
+        cancelAnimationFrame(animationFrameId);
+        gameLoopRunning = false;
         return;
     }
 
@@ -247,15 +253,21 @@ function gameLoop() {
     drawScore();
     drawGameMode();
 
-    requestAnimationFrame(gameLoop);
+    // Speichere die ID des nächsten Frames
+    animationFrameId = requestAnimationFrame(gameLoop);
 }
 
 // Event Listener für Spielstart aktualisieren
 document.getElementById('startGame').addEventListener('click', () => {
+    // Wenn bereits ein Game Loop läuft, diesen zuerst stoppen
+    if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        gameLoopRunning = false;
+    }
+
     const selectedMode = document.getElementById('gameMode').value;
     initGame(selectedMode);
     isGameRunning = true;
-    if (!gameLoopRunning) {
-        gameLoop();
-    }
+    gameLoopRunning = true;
+    gameLoop();
 }); 
