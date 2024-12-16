@@ -15,6 +15,8 @@ Ein klassisches Pong-Spiel im Retro-Design, entwickelt mit Vanilla JavaScript.
 ## Installation
 1. Repository klonen
 2. index.html im Browser öffnen
+Oder:
+https://ycvy.github.io/Retro-Pong/
 
 ## Technologien
 - HTML5
